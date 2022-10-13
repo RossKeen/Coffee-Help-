@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -20,15 +19,8 @@ Future<void> main() async {
 }
 
 class MyApp extends StatelessWidget {
-  final db = FirebaseFirestore.instance;
-  final drinkData = [];
-
   @override
   Widget build(BuildContext context) {
-    Future getDrinks() async {
-      await db.collection('drinks').get();
-    }
-
     return MaterialApp(
       theme: ThemeData(),
       title: 'Coffee, Help!',
@@ -46,11 +38,7 @@ class App extends StatefulWidget {
 
 class _AppState extends State<App> {
   int _selectedIndex = 0;
-  static const List<Widget> _widgetOptions = <Widget>[
-    Home(),
-    Drinks(),
-    Profile()
-  ];
+  static List<Widget> _widgetOptions = <Widget>[Home(), Drinks(), Profile()];
 
   void _onItemTapped(int index) {
     setState(() {
