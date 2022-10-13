@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -19,8 +20,15 @@ Future<void> main() async {
 }
 
 class MyApp extends StatelessWidget {
+  final db = FirebaseFirestore.instance;
+  final drinkData = [];
+
   @override
   Widget build(BuildContext context) {
+    Future getDrinks() async {
+      await db.collection('drinks').get();
+    }
+
     return MaterialApp(
       theme: ThemeData(),
       title: 'Coffee, Help!',
