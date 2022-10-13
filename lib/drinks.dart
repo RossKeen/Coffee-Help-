@@ -1,25 +1,20 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import './drinkCard.dart';
 
-class Drinks extends StatefulWidget {
+class Drinks extends StatelessWidget {
   const Drinks({super.key});
-  // var db;
-  // Drinks(this.db)
 
-  @override
-  State<Drinks> createState() => _DrinksState();
-}
-
-class _DrinksState extends State<Drinks> {
-  // final drinksRef = db.collection('drinks');
-  // final drinksData = const [
-  //   {'name': 'Mocha', 'caffeine': 70, 'favourited': false},
-  //   {'name': 'Espresso', 'caffeine': 60, 'favourited': false}
-  // ];
   @override
   Widget build(BuildContext context) {
-    return Text('data');
-    // return Column(children: [...drinksData.map((drink) => DrinkCard(drink))]);
+    var drinks = [];
+    var db = FirebaseFirestore.instance;
+    var drink = db.collection('drinks').get().then((event) {
+      for (var doc in event.docs) {
+        drinks.add(doc.data());
+      }
+    });
+    return Text('lol');
   }
 }
