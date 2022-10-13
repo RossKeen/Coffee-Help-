@@ -1,18 +1,37 @@
+import 'dart:async';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
 import './navBar.dart';
 import './drinks.dart';
 import './home.dart';
 import './profile.dart';
 
-void main() => runApp(MyApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
+  final db = FirebaseFirestore.instance;
+  final drinkData = [];
+
   @override
   Widget build(BuildContext context) {
+    Future getDrinks() async {
+      await db.collection('drinks').get();
+    }
+
     return MaterialApp(
       theme: ThemeData(),
-      title: 'Flutter Demo',
+      title: 'Coffee, Help!',
       home: App(),
     );
   }
