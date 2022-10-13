@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 
+import './navBar.dart';
+import './drinks.dart';
+import './home.dart';
+import './profile.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -8,38 +13,24 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(),
       title: 'Flutter Demo',
-
-      home: MyStatefulWidget(),
-
-      
+      home: App(),
     );
   }
 }
 
-class MyStatefulWidget extends StatefulWidget {
-  const MyStatefulWidget({super.key});
+class App extends StatefulWidget {
+  const App({super.key});
 
   @override
-  State<MyStatefulWidget> createState() => _MyStatefulWidgetState();
+  State<App> createState() => _AppState();
 }
 
-class _MyStatefulWidgetState extends State<MyStatefulWidget> {
+class _AppState extends State<App> {
   int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'Home page',
-      style: optionStyle,
-    ),
-    Text(
-      'Drinks list',
-      style: optionStyle,
-    ),
-    Text(
-      'Profile page',
-      style: optionStyle,
-    ),
+    Home(),
+    Drinks(),
+    Profile()
   ];
 
   void _onItemTapped(int index) {
@@ -61,25 +52,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.coffee),
-            label: 'Drinks',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.brown[300],
-        onTap: _onItemTapped,
-      ),
+      bottomNavigationBar:
+          NavBar(selectedIndex: _selectedIndex, onItemTapped: _onItemTapped),
     );
   }
 }
