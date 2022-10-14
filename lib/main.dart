@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
 import './navBar.dart';
 import './drinks.dart';
 import './home.dart';
 import './profile.dart';
 
-void main() => runApp(MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+  options: DefaultFirebaseOptions.currentPlatform,
+);
+  runApp( MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override
@@ -27,17 +35,24 @@ class App extends StatefulWidget {
 
 class _AppState extends State<App> {
   int _selectedIndex = 0;
-  static const List<Widget> _widgetOptions = <Widget>[
-    Home(),
-    Drinks(),
-    Profile()
-  ];
+
+
+
 
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
     });
   }
+
+  
+
+  static const List<Widget> _widgetOptions = <Widget>[
+    Home(),
+    Drinks(),
+    Profile()
+  ];
+
 
   @override
   Widget build(BuildContext context) {
