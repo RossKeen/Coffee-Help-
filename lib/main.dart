@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -7,12 +9,15 @@ import './drinks.dart';
 import './home.dart';
 import './profile.dart';
 
-void main() async {
+
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await Firebase.initializeApp(
-  options: DefaultFirebaseOptions.currentPlatform,
-);
-  runApp( MyApp());
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  runApp(MyApp());
+
 }
 
 class MyApp extends StatelessWidget {
@@ -20,7 +25,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(),
-      title: 'Flutter Demo',
+      title: 'Coffee, Help!',
       home: App(),
     );
   }
@@ -36,7 +41,7 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   int _selectedIndex = 0;
 
-
+  static List<Widget> _widgetOptions = <Widget>[Home(), Drinks(), Profile()];
 
 
   void _onItemTapped(int index) {
