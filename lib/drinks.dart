@@ -23,7 +23,7 @@ class Drinks extends StatelessWidget {
           var drinksList = snapshot.data;
           return Column(children: [
             ...drinksList.map((drink) {
-              return DrinkCard(drink);
+              return DrinkCard(db, drink);
             }).toList()
           ]);
         } else {
