@@ -41,7 +41,7 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   int _selectedIndex = 0;
 
-  static List<Widget> _widgetOptions = <Widget>[Home(), Drinks(), Profile()];
+  
 
 
   void _onItemTapped(int index) {
