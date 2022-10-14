@@ -4,18 +4,22 @@ import './favouriteButton.dart';
 
 class DrinkCard extends StatelessWidget {
   final Map<String, dynamic> drink;
-  DrinkCard(this.drink);
+  final db;
+  DrinkCard(this.db, this.drink);
 
   @override
   Widget build(BuildContext context) {
     return Card(
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        Text(
-          drink['name'].toString() + ' ',
-          style: TextStyle(fontSize: 20),
+        SizedBox(
+          width: 150,
+          child: Text(
+            drink['name'].toString() + ' ',
+            style: TextStyle(fontSize: 20),
+          ),
         ),
         Text(drink['caffeine'].toString() + 'mg'),
-        FavouriteButton(),
+        FavouriteButton(db, drink['id'], drink['favourited']),
       ]),
     );
   }
