@@ -8,13 +8,28 @@ class Drinks extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var drinks = [];
     var db = FirebaseFirestore.instance;
     var drink = db.collection('drinks').get().then((event) {
+      var drinks = [];
       for (var doc in event.docs) {
         drinks.add(doc.data());
       }
+      return drinks;
     });
-    return Text('lol');
+    return FutureBuilder(
+      future: drink,
+      builder: ((context, AsyncSnapshot snapshot) {
+        if (snapshot.hasData) {
+          var drinksList = snapshot.data;
+          return Column(children: [
+            ...drinksList.map((drink) {
+              return DrinkCard(drink);
+            }).toList()
+          ]);
+        } else {
+          return Text('Loading...');
+        }
+      }),
+    );
   }
 }
