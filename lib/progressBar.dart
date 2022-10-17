@@ -4,63 +4,60 @@ import 'package:flutter/services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ProgressBar extends StatefulWidget {
+  final int caffeineState;
+  final int caffeineGoalState;
+
+  ProgressBar(this.caffeineState, this.caffeineGoalState);
   @override
-  _ProgressBarState createState() => _ProgressBarState();
+  _ProgressBarState createState() =>
+      _ProgressBarState(caffeineState, caffeineGoalState);
 }
-
-
 
 class _ProgressBarState extends State<ProgressBar> {
+  final int caffeineState;
+  final int caffeineGoalState;
 
+  _ProgressBarState(this.caffeineState, this.caffeineGoalState);
 
-  
-
-double progress = double.parse(currentCaffeine)/double.parse(goal);
-double percent = 0;
-  currentProgressColor() {
-    if (progress >= 0.7 && progress < 0.8) {
-      return Colors.orange;
-    }
-    if(progress >= 0.8){
-      return Colors.red;
-    }
-    else{
-      return Colors.green;
-    }
-  }
-  caffeineLimit () {
-    if (progress < 1) {
-      percent = progress;
-      return Text("${progress * 100}%");
-
-    } else {
-      percent = 1;
-      return Text("Caffeine limit reached!");
-
-    }
-  }
-  @override 
+  @override
   Widget build(BuildContext context) {
-    return  Padding(
-              padding: EdgeInsets.all(20.0),
-              child: new LinearPercentIndicator(
-                width: 170.0,
-                animation: true,
-                animationDuration: 1000,
-                lineHeight: 20.0,
-                leading: new Text("0mg"),
-                trailing: new Text("400mg"),
-                percent: percent,
-                barRadius: const Radius.circular(16),
-                center: caffeineLimit() ,
-                progressColor: currentProgressColor(),
-              
-                
-              ),
-            );
+    double progress = caffeineState / caffeineGoalState;
+    double percent = 0;
+    currentProgressColor() {
+      if (progress >= 0.7 && progress < 0.8) {
+        return Colors.orange;
+      }
+      if (progress >= 0.8) {
+        return Colors.red;
+      } else {
+        return Colors.green;
+      }
+    }
+
+    caffeineLimit() {
+      if (progress < 1) {
+        percent = progress;
+        return Text("${(progress * 100).round()}%");
+      } else {
+        percent = 1;
+        return Text("Caffeine limit reached!");
+      }
+    }
+
+    return Padding(
+      padding: EdgeInsets.all(20.0),
+      child: new LinearPercentIndicator(
+        width: 170.0,
+        animation: true,
+        animationDuration: 1000,
+        lineHeight: 20.0,
+        leading: new Text("0mg"),
+        trailing: new Text("${caffeineGoalState}mg"),
+        percent: percent,
+        barRadius: const Radius.circular(16),
+        center: caffeineLimit(),
+        progressColor: currentProgressColor(),
+      ),
+    );
   }
-
 }
-
-String goal = '0';
-  String currentCaffeine = '0';

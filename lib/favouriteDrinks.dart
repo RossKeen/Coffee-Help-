@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:coffee_help/progressBar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class FavouriteDrinks extends StatefulWidget {
   const FavouriteDrinks({super.key});
@@ -11,29 +10,28 @@ class FavouriteDrinks extends StatefulWidget {
 }
 
 class _FavouriteDrinksState extends State<FavouriteDrinks> {
-  int caffeineState = 0;
-  var db = FirebaseFirestore.instance;
-  void handleTap(caffeine) {
-    var getDrinkId = db
+  late int caffeineState;
+  late int goalState;
+
+  @override
+  Widget build(BuildContext context) {
+    var db = FirebaseFirestore.instance;
+    void handleTap(caffeine, currentCaffeine) {
+      db
+          .collection('users')
+          .doc("test-user")
+          .update({'current-caffeine': caffeine + currentCaffeine}).then((e) {
+        setState(() {});
+      });
+    }
+
+    var getUser = db
         .collection('users')
         .where('id', isEqualTo: 'test-user')
         .get()
         .then((event) {
-      var currentCaffeine = event.docs[0].data()['current-caffeine'];
-      return currentCaffeine;
-    }).then((currentCaffeine) {
-      setState(() {
-        caffeineState = currentCaffeine + caffeine;
-      });
-      db
-          .collection('users')
-          .doc("test-user")
-          .update({'current-caffeine': currentCaffeine + caffeine});
+      return event.docs[0].data();
     });
-  }
-
-  @override
-  Widget build(BuildContext context) {
     var drink = db.collection('drinks').get().then((event) {
       var drinks = [];
       for (var doc in event.docs) {
@@ -41,39 +39,52 @@ class _FavouriteDrinksState extends State<FavouriteDrinks> {
       }
       return drinks;
     });
+
     return FutureBuilder(
-      future: drink,
+      future: Future.wait([drink, getUser]),
       builder: ((context, AsyncSnapshot snapshot) {
         if (snapshot.hasData) {
           var favouritedDrinks = [];
-          var drinksList = snapshot.data;
+          var drinksList = snapshot.data[0];
+          var user = snapshot.data[1];
+          caffeineState = user['current-caffeine'];
+          goalState = user['caffeine-goal'];
           for (Map drink in drinksList) {
             if (drink['favourited'] && favouritedDrinks.length < 5) {
               favouritedDrinks.add(drink);
             }
           }
           return Column(
-              children: favouritedDrinks.length == 0
-                  ? [
-                      const Text(
-                        'Add a favourite drink',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 30,
-                            fontFamily: 'Helvetica'),
-                      )
-                    ]
-                  : favouritedDrinks.map((drink) {
-                      return ListTile(
-                          onTap: () => handleTap(drink['caffeine']),
-                          title: Row(children: [
-                            Icon(
-                              Icons.local_cafe,
-                              color: Colors.brown[300],
-                            ),
-                            Text(' ${drink['name']}')
-                          ]));
-                    }).toList());
+            key: UniqueKey(),
+            children: [
+              ProgressBar(user['current-caffeine'], user['caffeine-goal']),
+              Column(
+                  children: favouritedDrinks.length == 0
+                      ? [
+                          const Text(
+                            'Add a favourite drink',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 30,
+                                fontFamily: 'Helvetica'),
+                          )
+                        ]
+                      : favouritedDrinks.map((drink) {
+                          return ListTile(
+                              onTap: () => {
+                                    handleTap(drink['caffeine'],
+                                        user['current-caffeine'])
+                                  },
+                              title: Row(children: [
+                                Icon(
+                                  Icons.local_cafe,
+                                  color: Colors.brown[300],
+                                ),
+                                Text(' ${drink['name']}')
+                              ]));
+                        }).toList()),
+            ],
+          );
         } else {
           return Text('Loading...');
         }
