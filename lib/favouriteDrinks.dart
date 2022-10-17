@@ -11,9 +11,29 @@ class FavouriteDrinks extends StatefulWidget {
 }
 
 class _FavouriteDrinksState extends State<FavouriteDrinks> {
+  int caffeineState = 0;
+  var db = FirebaseFirestore.instance;
+  void handleTap(caffeine) {
+    var getDrinkId = db
+        .collection('users')
+        .where('id', isEqualTo: 'test-user')
+        .get()
+        .then((event) {
+      var currentCaffeine = event.docs[0].data()['current-caffeine'];
+      return currentCaffeine;
+    }).then((currentCaffeine) {
+      setState(() {
+        caffeineState = currentCaffeine + caffeine;
+      });
+      db
+          .collection('users')
+          .doc("test-user")
+          .update({'current-caffeine': currentCaffeine + caffeine});
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    var db = FirebaseFirestore.instance;
     var drink = db.collection('drinks').get().then((event) {
       var drinks = [];
       for (var doc in event.docs) {
@@ -28,54 +48,32 @@ class _FavouriteDrinksState extends State<FavouriteDrinks> {
           var favouritedDrinks = [];
           var drinksList = snapshot.data;
           for (Map drink in drinksList) {
-            if (drink['favourited']) {
+            if (drink['favourited'] && favouritedDrinks.length < 5) {
               favouritedDrinks.add(drink);
             }
           }
           return Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  favouritedDrinks.length > 0
-                      ? ElevatedButton(
-                          onPressed: () {},
-                          child: Text(favouritedDrinks.length > 0
-                              ? '${favouritedDrinks[0]['name']}'
-                              : 'placeholder'))
-                      : Icon(Icons.coffee),
-                  ElevatedButton(
-                      onPressed: () {},
-                      child: Text(favouritedDrinks.length > 1
-                          ? '${favouritedDrinks[1]['name']}'
-                          : 'placeholder')),
-                  ElevatedButton(
-                      onPressed: () {},
-                      style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all(Colors.brown[300])),
-                      child: Text(favouritedDrinks.length > 2
-                          ? '${favouritedDrinks[2]['name']}'
-                          : '')),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ElevatedButton(
-                      onPressed: () {},
-                      child: Text(favouritedDrinks.length > 3
-                          ? '${favouritedDrinks[3]['name']}'
-                          : 'placeholder')),
-                  ElevatedButton(
-                      onPressed: () {},
-                      child: Text(favouritedDrinks.length > 4
-                          ? '${favouritedDrinks[4]['name']}'
-                          : 'placeholder')),
-                ],
-              )
-            ],
-          );
+              children: favouritedDrinks.length == 0
+                  ? [
+                      const Text(
+                        'Add a favourite drink',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 30,
+                            fontFamily: 'Helvetica'),
+                      )
+                    ]
+                  : favouritedDrinks.map((drink) {
+                      return ListTile(
+                          onTap: () => handleTap(drink['caffeine']),
+                          title: Row(children: [
+                            Icon(
+                              Icons.local_cafe,
+                              color: Colors.brown[300],
+                            ),
+                            Text(' ${drink['name']}')
+                          ]));
+                    }).toList());
         } else {
           return Text('Loading...');
         }
