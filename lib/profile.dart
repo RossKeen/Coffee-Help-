@@ -7,10 +7,14 @@ class Profile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
-      Username(),
-      CaffeineWidget(),
-    ]);
+    return Column(
+      children: [
+        Row(
+          children: [Username()],
+        ),
+        CaffeineWidget(),
+      ],
+    );
   }
 }
 
@@ -36,8 +40,14 @@ class _UsernameState extends State<Username> {
       builder: ((context, AsyncSnapshot snapshot) {
         if (snapshot.hasData) {
           goal = snapshot.data['caffeine-goal'].toString();
-          return Text(snapshot.data['username'],
-              style: TextStyle(fontSize: 27));
+          return Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Text(
+              snapshot.data['username'],
+              style: TextStyle(fontSize: 22),
+              textAlign: TextAlign.left,
+            ),
+          );
         } else {
           return Text('Loading..');
         }
@@ -47,10 +57,10 @@ class _UsernameState extends State<Username> {
   //=>
 }
 
-dynamic goal = '...Loading';
+dynamic goal = '...Loading ';
+var db = FirebaseFirestore.instance;
 
 class _CaffeineWidgetState extends State<CaffeineWidget> {
-  var db = FirebaseFirestore.instance;
   void changeGoal(value) {
     final user = db.collection('users').doc('test-user');
     user.update({'caffeine-goal': value});
@@ -59,33 +69,73 @@ class _CaffeineWidgetState extends State<CaffeineWidget> {
     });
   }
 
-  void handlePress() {
-    db.collection('users').doc('test-user').update({'current-caffeine': 0});
-  }
-
   @override
-  Widget build(BuildContext context) => Center(
-        child: Column(
-          children: [
-            Text('Goal: ${goal}mg'),
-            CaffeineInput(),
-            ElevatedButton(
-                onPressed: () => {handlePress()},
-                child: Text('Reset daily caffeine'))
-          ],
-        ),
+  Widget build(BuildContext context) => Column(
+        children: [
+          Text(
+            'Goal: ${goal}mg',
+            style: TextStyle(fontSize: 25, fontFamily: 'helvetica'),
+          ),
+          CaffeineInput(),
+          ElevatedButton(
+              style:
+                  OutlinedButton.styleFrom(backgroundColor: Colors.brown[400]),
+              onPressed: () => {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) =>
+                            _buildPopupDialog(context))
+                  },
+              child: Text('Reset daily caffeine'))
+        ],
       );
 
   Widget CaffeineInput() => TextField(
         onSubmitted: (value) => changeGoal(num.parse(value)),
-        decoration: InputDecoration(
-          border: OutlineInputBorder(),
+        cursorColor: Colors.black,
+        decoration: const InputDecoration(
+          enabledBorder:
+              OutlineInputBorder(borderSide: BorderSide(color: Colors.brown)),
+          border:
+              OutlineInputBorder(borderSide: BorderSide(color: Colors.brown)),
+          focusedBorder:
+              OutlineInputBorder(borderSide: BorderSide(color: Colors.brown)),
           labelText: 'set a new caffeine goal!',
-          prefixIcon: Icon(Icons.coffee),
+          labelStyle: TextStyle(color: Colors.brown),
+          prefixIcon: Icon(
+            Icons.coffee,
+            color: Colors.brown,
+          ),
         ),
         keyboardType: TextInputType.number,
         inputFormatters: [FilteringTextInputFormatter.digitsOnly],
         textInputAction: TextInputAction.done,
         scrollPadding: EdgeInsets.all(32),
       );
+}
+
+Widget _buildPopupDialog(BuildContext context) {
+  void handlePress() {
+    db.collection('users').doc('test-user').update({'current-caffeine': 0});
+  }
+
+  return AlertDialog(
+      title: const Text(
+          'Are you sure you want to clear your current caffeine intake?'),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: const <Widget>[
+          Text("This action is irreversible..."),
+        ],
+      ),
+      actions: <Widget>[
+        TextButton(
+            onPressed: () => Navigator.pop(context, 'Cancel'),
+            child: const Text('Close')),
+        TextButton(
+            onPressed: () =>
+                {handlePress(), Navigator.pop(context, 'Clear anyway')},
+            child: const Text('Clear anyway'))
+      ]);
 }
