@@ -22,41 +22,45 @@ class _ProgressBarState extends State<ProgressBar> {
   @override
   Widget build(BuildContext context) {
     double progress = caffeineState / caffeineGoalState;
-    double percent = 0;
+    double percent = progress;
     currentProgressColor() {
-      if (progress >= 0.7 && progress < 0.8) {
-        return Colors.orange;
+      if (progress > 0.6 && progress < 0.8) {
+        return Color.fromARGB(255, 224, 92, 59);
       }
       if (progress >= 0.8) {
-        return Colors.red;
+        return Color.fromARGB(255, 140, 19, 10);
       } else {
-        return Colors.green;
+        return Color.fromARGB(255, 132, 100, 25);
       }
     }
 
     caffeineLimit() {
       if (progress < 1) {
         percent = progress;
-        return Text("${(progress * 100).round()}%");
+        return Text("${(progress * 100).round()}%", style: TextStyle(color: Colors.white));
       } else {
         percent = 1;
-        return Text("Caffeine limit reached!");
+        return Text("OVER THE LIMIT!", style: TextStyle(color: Colors.white),);
       }
     }
 
     return Padding(
       padding: EdgeInsets.all(20.0),
-      child: new LinearPercentIndicator(
-        width: 170.0,
-        animation: true,
-        animationDuration: 1000,
-        lineHeight: 20.0,
+      child: LinearPercentIndicator(
+       
+        backgroundColor: Color.fromARGB(255, 203, 202, 171),
+        //fillColor: Colors.blueAccent,
+        width: 250.0,
+        lineHeight: 40.0,
         leading: new Text("0mg"),
         trailing: new Text("${caffeineGoalState}mg"),
         percent: percent,
         barRadius: const Radius.circular(16),
         center: caffeineLimit(),
         progressColor: currentProgressColor(),
+        animateFromLastPercent: true,
+        
+        
       ),
     );
   }
