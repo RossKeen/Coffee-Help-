@@ -28,54 +28,32 @@ class _FavouriteDrinksState extends State<FavouriteDrinks> {
           var favouritedDrinks = [];
           var drinksList = snapshot.data;
           for (Map drink in drinksList) {
-            if (drink['favourited']) {
+            if (drink['favourited'] && favouritedDrinks.length < 5) {
               favouritedDrinks.add(drink);
             }
           }
           return Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  favouritedDrinks.length > 0
-                      ? ElevatedButton(
-                          onPressed: () {},
-                          child: Text(favouritedDrinks.length > 0
-                              ? '${favouritedDrinks[0]['name']}'
-                              : 'placeholder'))
-                      : Icon(Icons.coffee),
-                  ElevatedButton(
-                      onPressed: () {},
-                      child: Text(favouritedDrinks.length > 1
-                          ? '${favouritedDrinks[1]['name']}'
-                          : 'placeholder')),
-                  ElevatedButton(
-                      onPressed: () {},
-                      style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all(Colors.brown[300])),
-                      child: Text(favouritedDrinks.length > 2
-                          ? '${favouritedDrinks[2]['name']}'
-                          : '')),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ElevatedButton(
-                      onPressed: () {},
-                      child: Text(favouritedDrinks.length > 3
-                          ? '${favouritedDrinks[3]['name']}'
-                          : 'placeholder')),
-                  ElevatedButton(
-                      onPressed: () {},
-                      child: Text(favouritedDrinks.length > 4
-                          ? '${favouritedDrinks[4]['name']}'
-                          : 'placeholder')),
-                ],
-              )
-            ],
-          );
+              children: favouritedDrinks.length == 0
+                  ? [
+                      const Text(
+                        'Add a favourite drink',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 30,
+                            fontFamily: 'Helvetica'),
+                      )
+                    ]
+                  : favouritedDrinks.map((drink) {
+                      return ListTile(
+                          onTap: () {},
+                          title: Row(children: [
+                            Icon(
+                              Icons.local_cafe,
+                              color: Colors.brown[300],
+                            ),
+                            Text(' ${drink['name']}')
+                          ]));
+                    }).toList());
         } else {
           return Text('Loading...');
         }
