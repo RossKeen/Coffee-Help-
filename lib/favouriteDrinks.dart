@@ -11,9 +11,29 @@ class FavouriteDrinks extends StatefulWidget {
 }
 
 class _FavouriteDrinksState extends State<FavouriteDrinks> {
+  int caffeineState = 0;
+  var db = FirebaseFirestore.instance;
+  void handleTap(caffeine) {
+    var getDrinkId = db
+        .collection('users')
+        .where('id', isEqualTo: 'test-user')
+        .get()
+        .then((event) {
+      var currentCaffeine = event.docs[0].data()['current-caffeine'];
+      return currentCaffeine;
+    }).then((currentCaffeine) {
+      setState(() {
+        caffeineState = currentCaffeine + caffeine;
+      });
+      db
+          .collection('users')
+          .doc("test-user")
+          .update({'current-caffeine': currentCaffeine + caffeine});
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    var db = FirebaseFirestore.instance;
     var drink = db.collection('drinks').get().then((event) {
       var drinks = [];
       for (var doc in event.docs) {
@@ -45,7 +65,7 @@ class _FavouriteDrinksState extends State<FavouriteDrinks> {
                     ]
                   : favouritedDrinks.map((drink) {
                       return ListTile(
-                          onTap: () {},
+                          onTap: () => handleTap(drink['caffeine']),
                           title: Row(children: [
                             Icon(
                               Icons.local_cafe,
