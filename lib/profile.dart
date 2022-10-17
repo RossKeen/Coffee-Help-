@@ -5,8 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Profile extends StatelessWidget {
-  //final int selectedIndex;
-  //final void Function(int) onItemTapped;
+  
   const Profile({super.key});
 
   @override
@@ -53,7 +52,7 @@ if (snapshot.hasData) {
   } 
   //=> 
 }
-  String goal = 'hardcoded';
+  String goal = '...Loading';
 
 
 class _CaffeineWidgetState extends State<CaffeineWidget> {
