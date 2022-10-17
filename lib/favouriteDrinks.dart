@@ -10,9 +10,6 @@ class FavouriteDrinks extends StatefulWidget {
 }
 
 class _FavouriteDrinksState extends State<FavouriteDrinks> {
-  late int caffeineState;
-  late int goalState;
-
   @override
   Widget build(BuildContext context) {
     var db = FirebaseFirestore.instance;
@@ -47,8 +44,6 @@ class _FavouriteDrinksState extends State<FavouriteDrinks> {
           var favouritedDrinks = [];
           var drinksList = snapshot.data[0];
           var user = snapshot.data[1];
-          caffeineState = user['current-caffeine'];
-          goalState = user['caffeine-goal'];
           for (Map drink in drinksList) {
             if (drink['favourited'] && favouritedDrinks.length < 5) {
               favouritedDrinks.add(drink);

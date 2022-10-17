@@ -47,16 +47,20 @@ class _UsernameState extends State<Username> {
   //=>
 }
 
-String goal = '...Loading';
+dynamic goal = '...Loading';
 
 class _CaffeineWidgetState extends State<CaffeineWidget> {
+  var db = FirebaseFirestore.instance;
   void changeGoal(value) {
-    final user =
-        FirebaseFirestore.instance.collection('users').doc('test-user');
+    final user = db.collection('users').doc('test-user');
     user.update({'caffeine-goal': value});
     setState(() {
       goal = value;
     });
+  }
+
+  void handlePress() {
+    db.collection('users').doc('test-user').update({'current-caffeine': 0});
   }
 
   @override
@@ -65,15 +69,15 @@ class _CaffeineWidgetState extends State<CaffeineWidget> {
           children: [
             Text('Goal: ${goal}mg'),
             CaffeineInput(),
-            const SizedBox(
-              height: 24,
-            )
+            ElevatedButton(
+                onPressed: () => {handlePress()},
+                child: Text('Reset daily caffeine'))
           ],
         ),
       );
 
   Widget CaffeineInput() => TextField(
-        onSubmitted: (value) => changeGoal(value),
+        onSubmitted: (value) => changeGoal(num.parse(value)),
         decoration: InputDecoration(
           border: OutlineInputBorder(),
           labelText: 'set a new caffeine goal!',

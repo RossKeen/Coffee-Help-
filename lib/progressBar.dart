@@ -4,8 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ProgressBar extends StatefulWidget {
-  final int caffeineState;
-  final int caffeineGoalState;
+  final caffeineState;
+  final caffeineGoalState;
 
   ProgressBar(this.caffeineState, this.caffeineGoalState);
   @override
@@ -14,8 +14,8 @@ class ProgressBar extends StatefulWidget {
 }
 
 class _ProgressBarState extends State<ProgressBar> {
-  final int caffeineState;
-  final int caffeineGoalState;
+  final caffeineState;
+  final caffeineGoalState;
 
   _ProgressBarState(this.caffeineState, this.caffeineGoalState);
 
