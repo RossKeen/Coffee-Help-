@@ -4,16 +4,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CaffeineWidget extends StatefulWidget {
   String goal;
-  CaffeineWidget (this.goal);
+  CaffeineWidget(this.goal);
   @override
   _CaffeineWidgetState createState() => _CaffeineWidgetState();
 }
 
 class _CaffeineWidgetState extends State<CaffeineWidget> {
-
-
   void changeGoal(value) {
-    final user = FirebaseFirestore.instance.collection('users').doc('test-user');
+    final user =
+        FirebaseFirestore.instance.collection('users').doc('test-user');
     user.update({'caffeine-goal': int.parse(value)});
     setState(() {
       widget.goal = value;
@@ -41,33 +40,42 @@ class _CaffeineWidgetState extends State<CaffeineWidget> {
         ],
       );
 
-  Widget CaffeineInput() => TextField(
-        onSubmitted: (value) => changeGoal(value),
-        cursorColor: Colors.black,
-        decoration: const InputDecoration(
-          enabledBorder:
-              OutlineInputBorder(borderSide: BorderSide(color: Colors.brown)),
-          border:
-              OutlineInputBorder(borderSide: BorderSide(color: Colors.brown)),
-          focusedBorder:
-              OutlineInputBorder(borderSide: BorderSide(color: Colors.brown)),
-          labelText: 'set a new caffeine goal!',
-          labelStyle: TextStyle(color: Colors.brown),
-          prefixIcon: Icon(
-            Icons.coffee,
-            color: Colors.brown,
+  Widget CaffeineInput() => Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: TextField(
+          onSubmitted: (value) => changeGoal(value),
+          cursorColor: Colors.black,
+          decoration: const InputDecoration(
+            contentPadding: EdgeInsets.all(20),
+            enabledBorder:
+                OutlineInputBorder(borderSide: BorderSide(color: Colors.brown)),
+            border:
+                OutlineInputBorder(borderSide: BorderSide(color: Colors.brown)),
+            focusedBorder:
+                OutlineInputBorder(borderSide: BorderSide(color: Colors.brown)),
+            labelText: 'set a new caffeine goal!',
+            labelStyle: TextStyle(color: Colors.brown, fontSize: 20),
+            suffixText: 'mg',
+            suffixStyle: TextStyle(fontSize: 20),
+            prefixIcon: Icon(
+              Icons.coffee,
+              color: Colors.brown,
+            ),
           ),
+          keyboardType: TextInputType.number,
+          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+          textInputAction: TextInputAction.done,
+          scrollPadding: EdgeInsets.all(32),
         ),
-        keyboardType: TextInputType.number,
-        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-        textInputAction: TextInputAction.done,
-        scrollPadding: EdgeInsets.all(32),
       );
 }
 
 Widget _buildPopupDialog(BuildContext context) {
   void handlePress() {
-    FirebaseFirestore.instance.collection('users').doc('test-user').update({'current-caffeine': 0});
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc('test-user')
+        .update({'current-caffeine': 0});
   }
 
   return AlertDialog(
