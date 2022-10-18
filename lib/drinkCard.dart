@@ -9,6 +9,16 @@ class DrinkCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    void handlePress(caffeine) {
+      db.collection('users').get().then((data) {
+         // Log.d('data', data.docs[0].data()['current-caffeine'].toString());
+      }).then((cCaffeine) {
+        db.collection('users').doc('test-user').update(
+            {'current-caffeine': {cCaffeine + caffeine}});
+      });
+    }
+
     return Card(
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         SizedBox(
@@ -19,6 +29,7 @@ class DrinkCard extends StatelessWidget {
           ),
         ),
         Text(drink['caffeine'].toString() + 'mg'),
+        ElevatedButton(onPressed: () {handlePress(drink['caffeine']);}, child: Text('Add')),
         FavouriteButton(db, drink['id'], drink['favourited']),
       ]),
     );
