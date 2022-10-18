@@ -7,6 +7,7 @@ class Drinks extends StatelessWidget {
   const Drinks({super.key});
 
   @override
+
   Widget build(BuildContext context) {
     var db = FirebaseFirestore.instance;
     var drink = db.collection('drinks').get().then((event) {

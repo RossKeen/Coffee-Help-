@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coffee_help/progressBar.dart';
 import 'package:flutter/material.dart';
 
+
 class FavouriteDrinks extends StatefulWidget {
   const FavouriteDrinks({super.key});
 
@@ -20,7 +21,8 @@ class _FavouriteDrinksState extends State<FavouriteDrinks> {
       db
           .collection('users')
           .doc("test-user")
-          .update({'current-caffeine': caffeine + currentCaffeine}).then((e) {
+          .update({'current-caffeine': caffeine + currentCaffeine})
+          .then((e) {
         setState(() {});
       });
     }
@@ -71,15 +73,13 @@ class _FavouriteDrinksState extends State<FavouriteDrinks> {
                         ]
                       : favouritedDrinks.map((drink) {
                           return ListTile(
-                              onTap: () => {
-                                    handleTap(drink['caffeine'],
-                                        user['current-caffeine'])
-                                  },
-                              title: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                Row(
-                                    children: [
+                              onTap: () =>
+                              {
+                                handleTap(drink['caffeine'],
+                                  user['current-caffeine'],)
+                              },
+                              title: Row(children: [
+
                                 Icon(
                                   Icons.local_cafe,
                                   color: Colors.brown[600],
