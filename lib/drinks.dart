@@ -31,7 +31,7 @@ class _DrinksState extends State<Drinks> {
         if (snapshot.hasData) {
           var drinksList = snapshot.data[0];
           var user = snapshot.data[1];
-          return Column(key: UniqueKey(), children: [
+          return ListView(key: UniqueKey(), children: [
             ProgressBar(user['current-caffeine'], user['caffeine-goal']),
             ...drinksList.map((drink) {
               return DrinkCard(db, drink, setState);
