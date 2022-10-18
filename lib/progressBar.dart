@@ -37,7 +37,7 @@ class _ProgressBarState extends State<ProgressBar> {
       if (progress > 0.6 && progress < 0.8) {
         return Color.fromARGB(255, 224, 92, 59);
       }
-      if (progress >= 0.8) {
+      if (progress >= 0.85) {
         return Color.fromARGB(255, 140, 19, 10);
       } else {
         return Color.fromARGB(255, 132, 100, 25);

@@ -10,6 +10,9 @@ class FavouriteDrinks extends StatefulWidget {
 }
 
 class _FavouriteDrinksState extends State<FavouriteDrinks> {
+  late int caffeineState;
+  late int goalState;
+
   @override
   Widget build(BuildContext context) {
     var db = FirebaseFirestore.instance;
@@ -44,14 +47,14 @@ class _FavouriteDrinksState extends State<FavouriteDrinks> {
           var favouritedDrinks = [];
           var drinksList = snapshot.data[0];
           var user = snapshot.data[1];
+          caffeineState = user['current-caffeine'];
+          goalState = user['caffeine-goal'];
           for (Map drink in drinksList) {
             if (drink['favourited'] && favouritedDrinks.length < 5) {
               favouritedDrinks.add(drink);
             }
           }
           return Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
             key: UniqueKey(),
             children: [
               ProgressBar(user['current-caffeine'], user['caffeine-goal']),
@@ -72,12 +75,25 @@ class _FavouriteDrinksState extends State<FavouriteDrinks> {
                                     handleTap(drink['caffeine'],
                                         user['current-caffeine'])
                                   },
-                              title: Row(children: [
+                              title: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                Row(
+                                    children: [
                                 Icon(
                                   Icons.local_cafe,
-                                  color: Colors.brown[300],
+                                  color: Colors.brown[600],
                                 ),
-                                Text(' ${drink['name']}')
+                                Text(' ${drink['name']}'),
+                              
+
+                                    ]
+                                  ),
+                                 
+                                Icon(
+                                  Icons.add_circle_outline,
+                                  color: Colors.brown[300],
+                                )
                               ]));
                         }).toList()),
             ],
