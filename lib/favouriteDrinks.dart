@@ -10,6 +10,9 @@ class FavouriteDrinks extends StatefulWidget {
 }
 
 class _FavouriteDrinksState extends State<FavouriteDrinks> {
+  late int caffeineState;
+  late int goalState;
+
   @override
   Widget build(BuildContext context) {
     var db = FirebaseFirestore.instance;
@@ -44,6 +47,8 @@ class _FavouriteDrinksState extends State<FavouriteDrinks> {
           var favouritedDrinks = [];
           var drinksList = snapshot.data[0];
           var user = snapshot.data[1];
+          caffeineState = user['current-caffeine'];
+          goalState = user['caffeine-goal'];
           for (Map drink in drinksList) {
             if (drink['favourited'] && favouritedDrinks.length < 5) {
               favouritedDrinks.add(drink);
@@ -70,26 +75,12 @@ class _FavouriteDrinksState extends State<FavouriteDrinks> {
                                     handleTap(drink['caffeine'],
                                         user['current-caffeine'])
                                   },
-                              title: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Row(
-                                    children: [
+                              title: Row(children: [
                                 Icon(
                                   Icons.local_cafe,
-                                  color: Colors.brown[600],
-                                ),
-                                Text(' ${drink['name']}'),
-                              
-
-                                    ]
-                                  ),
-                                 
-                                Icon(
-                                  Icons.add_circle_outline,
                                   color: Colors.brown[300],
-                                )
-                                
+                                ),
+                                Text(' ${drink['name']}')
                               ]));
                         }).toList()),
             ],
