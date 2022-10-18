@@ -5,17 +5,21 @@ import './favouriteButton.dart';
 class DrinkCard extends StatelessWidget {
   final Map<String, dynamic> drink;
   final db;
-  DrinkCard(this.db, this.drink);
+  final setState;
+  DrinkCard(this.db, this.drink, this.setState);
 
   @override
   Widget build(BuildContext context) {
-
     void handlePress(caffeine) {
       db.collection('users').get().then((data) {
-         // Log.d('data', data.docs[0].data()['current-caffeine'].toString());
+        return data.docs[0].data()['current-caffeine'];
       }).then((cCaffeine) {
-        db.collection('users').doc('test-user').update(
-            {'current-caffeine': {cCaffeine + caffeine}});
+        db
+            .collection('users')
+            .doc('test-user')
+            .update({'current-caffeine': cCaffeine + caffeine});
+      }).then((e) {
+        setState(() {});
       });
     }
 
@@ -29,7 +33,11 @@ class DrinkCard extends StatelessWidget {
           ),
         ),
         Text(drink['caffeine'].toString() + 'mg'),
-        ElevatedButton(onPressed: () {handlePress(drink['caffeine']);}, child: Text('Add')),
+        ElevatedButton(
+            onPressed: () {
+              handlePress(drink['caffeine']);
+            },
+            child: Text('Add')),
         FavouriteButton(db, drink['id'], drink['favourited']),
       ]),
     );
