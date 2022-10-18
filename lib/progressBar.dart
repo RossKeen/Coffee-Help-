@@ -25,8 +25,8 @@ class _ProgressBarState extends State<ProgressBar> {
 
     generatePercent() {
       if (progress < 1) {
-         double percent = progress;
-         return percent;
+        double percent = progress;
+        return percent;
       } else {
         double percent = 1;
         return percent;
@@ -46,11 +46,9 @@ class _ProgressBarState extends State<ProgressBar> {
 
     caffeineLimit() {
       if (progress < 1) {
-        
         return Text("${(progress * 100).round()}%",
             style: TextStyle(color: Colors.white));
       } else {
-        
         return Text(
           "OVER THE LIMIT!",
           style: TextStyle(color: Colors.white),
@@ -58,21 +56,26 @@ class _ProgressBarState extends State<ProgressBar> {
       }
     }
 
-    return Padding(
-      padding: EdgeInsets.all(20.0),
-      child: LinearPercentIndicator(
-        backgroundColor: Color.fromARGB(255, 203, 202, 171),
-        //fillColor: Colors.blueAccent,
-        width: 250.0,
-        lineHeight: 40.0,
-        leading: new Text("0mg"),
-        trailing: new Text("${caffeineGoalState}mg"),
-        percent: generatePercent(),
-        barRadius: const Radius.circular(16),
-        center: caffeineLimit(),
-        progressColor: currentProgressColor(),
-        animateFromLastPercent: true,
-      ),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Padding(
+          padding: EdgeInsets.all(20.0),
+          child: LinearPercentIndicator(
+            backgroundColor: Color.fromARGB(255, 203, 202, 171),
+            //fillColor: Colors.blueAccent,
+            width: 250.0,
+            lineHeight: 40.0,
+            leading: new Text("0mg"),
+            trailing: new Text("${caffeineGoalState}mg"),
+            percent: generatePercent(),
+            barRadius: const Radius.circular(16),
+            center: caffeineLimit(),
+            progressColor: currentProgressColor(),
+            animateFromLastPercent: true,
+          ),
+        ),
+      ],
     );
   }
 }
