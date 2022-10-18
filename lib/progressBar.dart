@@ -57,12 +57,14 @@ class _ProgressBarState extends State<ProgressBar> {
     }
 
     return Row(
+      key: UniqueKey(),
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Padding(
           padding: EdgeInsets.all(20.0),
           child: LinearPercentIndicator(
-            backgroundColor: Color.fromARGB(255, 203, 202, 171),
+            key: UniqueKey(),
+            backgroundColor: Color.fromARGB(255, 218, 218, 218),
             //fillColor: Colors.blueAccent,
             width: 250.0,
             lineHeight: 40.0,

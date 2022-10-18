@@ -28,8 +28,8 @@ class _CaffeineWidgetState extends State<CaffeineWidget> {
           ),
           CaffeineInput(),
           ElevatedButton(
-              style:
-                  OutlinedButton.styleFrom(backgroundColor: Colors.brown[400]),
+              style: OutlinedButton.styleFrom(
+                  backgroundColor: Color.fromRGBO(204, 102, 0, 1)),
               onPressed: () => {
                     showDialog(
                         context: context,
@@ -47,13 +47,13 @@ class _CaffeineWidgetState extends State<CaffeineWidget> {
           cursorColor: Colors.black,
           decoration: const InputDecoration(
             contentPadding: EdgeInsets.all(20),
-            enabledBorder:
-                OutlineInputBorder(borderSide: BorderSide(color: Colors.brown)),
-            border:
-                OutlineInputBorder(borderSide: BorderSide(color: Colors.brown)),
-            focusedBorder:
-                OutlineInputBorder(borderSide: BorderSide(color: Colors.brown)),
-            labelText: 'set a new caffeine goal!',
+            enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Color.fromRGBO(204, 102, 0, 1))),
+            border: OutlineInputBorder(
+                borderSide: BorderSide(color: Color.fromRGBO(204, 102, 0, 1))),
+            focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Color.fromRGBO(204, 102, 0, 1))),
+            labelText: 'Set a new caffeine goal!',
             labelStyle: TextStyle(color: Colors.brown, fontSize: 20),
             suffixText: 'mg',
             suffixStyle: TextStyle(fontSize: 20),
