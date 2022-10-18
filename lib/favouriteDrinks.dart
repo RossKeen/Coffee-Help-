@@ -70,12 +70,26 @@ class _FavouriteDrinksState extends State<FavouriteDrinks> {
                                     handleTap(drink['caffeine'],
                                         user['current-caffeine'])
                                   },
-                              title: Row(children: [
+                              title: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
+                                    children: [
                                 Icon(
                                   Icons.local_cafe,
-                                  color: Colors.brown[300],
+                                  color: Colors.brown[600],
                                 ),
-                                Text(' ${drink['name']}')
+                                Text(' ${drink['name']}'),
+                              
+
+                                    ]
+                                  ),
+                                 
+                                Icon(
+                                  Icons.add_circle_outline,
+                                  color: Colors.brown[300],
+                                )
+                                
                               ]));
                         }).toList()),
             ],
