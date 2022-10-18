@@ -50,6 +50,8 @@ class _FavouriteDrinksState extends State<FavouriteDrinks> {
             }
           }
           return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             key: UniqueKey(),
             children: [
               ProgressBar(user['current-caffeine'], user['caffeine-goal']),
