@@ -118,7 +118,11 @@ class _FavouriteDrinksState extends State<FavouriteDrinks> {
                           onPressed: () {
                             handleUndo(lastCaffeine, user['current-caffeine']);
                           },
-                          child: Text('Undo last drink'))
+                          child: Text('Undo last drink'),
+                          style: OutlinedButton.styleFrom(
+                              backgroundColor:
+                                  const Color.fromRGBO(204, 102, 0, 1)),
+                        )
                       : Text('')),
             ],
           );
