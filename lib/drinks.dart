@@ -21,7 +21,7 @@ class Drinks extends StatelessWidget {
       builder: ((context, AsyncSnapshot snapshot) {
         if (snapshot.hasData) {
           var drinksList = snapshot.data;
-          return Column(children: [
+          return ListView(children: [
             ...drinksList.map((drink) {
               return DrinkCard(db, drink);
             }).toList()
