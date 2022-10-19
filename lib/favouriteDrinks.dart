@@ -50,7 +50,7 @@ class _FavouriteDrinksState extends State<FavouriteDrinks> {
           caffeineState = user['current-caffeine'];
           goalState = user['caffeine-goal'];
           for (Map drink in drinksList) {
-            if (drink['favourited'] && favouritedDrinks.length < 5) {
+            if (drink['favourited']) {
               favouritedDrinks.add(drink);
             }
           }
