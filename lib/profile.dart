@@ -1,13 +1,14 @@
+import 'package:coffee_help/profilePic.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'username.dart';
 import 'caffeine-input.dart';
+import 'profilePic.dart';
 
 class Profile extends StatelessWidget {
   const Profile({super.key});
 
- 
   Widget build(BuildContext context) {
     var db = FirebaseFirestore.instance.collection('users');
     var user = db.get().then((event) {
@@ -19,14 +20,12 @@ class Profile extends StatelessWidget {
         if (snapshot.hasData) {
           String goal = snapshot.data['caffeine-goal'].toString();
           String username = snapshot.data['username'];
-          return Column(
-      children: [
-        Row(
-          children: [Username(username)],
-        ),
-        CaffeineWidget(goal),
-      ],
-    );
+          return ProfilePic(goal);
+          // Row(
+          //   children: [Username(username)],
+          // ),
+          // CaffeineWidget(goal),
+
         } else {
           return Text('Loading..');
         }

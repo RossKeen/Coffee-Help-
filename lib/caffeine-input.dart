@@ -21,10 +21,13 @@ class _CaffeineWidgetState extends State<CaffeineWidget> {
 
   @override
   Widget build(BuildContext context) => Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
+          Padding(padding: EdgeInsets.all(0.1)),
+          Text('Derek McBean 3rd'),
           Text(
-            'Goal: ${widget.goal}mg',
-            style: TextStyle(fontSize: 25, fontFamily: 'helvetica'),
+            'Limit: ${widget.goal}mg',
+            style: TextStyle(fontSize: 40, fontFamily: 'helvetica'),
           ),
           CaffeineInput(),
           ElevatedButton(
@@ -53,7 +56,7 @@ class _CaffeineWidgetState extends State<CaffeineWidget> {
                 OutlineInputBorder(borderSide: BorderSide(color: Colors.brown)),
             focusedBorder:
                 OutlineInputBorder(borderSide: BorderSide(color: Colors.brown)),
-            labelText: 'set a new caffeine goal!',
+            labelText: 'Set a new caffeine limit!',
             labelStyle: TextStyle(color: Colors.brown, fontSize: 20),
             suffixText: 'mg',
             suffixStyle: TextStyle(fontSize: 20),
