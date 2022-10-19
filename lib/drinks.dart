@@ -1,11 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:coffee_help/progressBar.dart';
 import 'package:flutter/material.dart';
 
 import './drinkCard.dart';
 
-class Drinks extends StatelessWidget {
+class Drinks extends StatefulWidget {
   const Drinks({super.key});
 
+  @override
+  _DrinksState createState() => _DrinksState();
+}
+
+class _DrinksState extends State<Drinks> {
   @override
   Widget build(BuildContext context) {
     var db = FirebaseFirestore.instance;
@@ -16,16 +22,29 @@ class Drinks extends StatelessWidget {
       }
       return drinks;
     });
+    var user = db.collection('users').get().then((event) {
+      return event.docs[0].data();
+    });
     return FutureBuilder(
-      future: drink,
+      future: Future.wait([drink, user]),
       builder: ((context, AsyncSnapshot snapshot) {
         if (snapshot.hasData) {
-          var drinksList = snapshot.data;
-          return ListView(children: [
-            ...drinksList.map((drink) {
-              return DrinkCard(db, drink);
-            }).toList()
-          ]);
+          var drinksList = snapshot.data[0];
+          var user = snapshot.data[1];
+          return Column(
+            key: UniqueKey(),
+            children: [
+              ProgressBar(user['current-caffeine'], user['caffeine-goal']),
+              SizedBox(
+                height: 645,
+                child: ListView(children: [
+                  ...drinksList.map((drink) {
+                    return DrinkCard(db, drink, setState);
+                  }).toList()
+                ]),
+              ),
+            ],
+          );
         } else {
           return Text('Loading...');
         }

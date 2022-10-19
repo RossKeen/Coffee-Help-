@@ -76,25 +76,21 @@ class _FavouriteDrinksState extends State<FavouriteDrinks> {
                                         user['current-caffeine'])
                                   },
                               title: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                Row(
-                                    children: [
-                                Icon(
-                                  Icons.local_cafe,
-                                  color: Colors.brown[600],
-                                ),
-                                Text(' ${drink['name']}'),
-                              
-
-                                    ]
-                                  ),
-                                 
-                                Icon(
-                                  Icons.add_circle_outline,
-                                  color: Colors.brown[300],
-                                )
-                              ]));
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Row(children: [
+                                      Icon(
+                                        Icons.local_cafe,
+                                        color: Colors.brown[600],
+                                      ),
+                                      Text(' ${drink['name']}'),
+                                    ]),
+                                    Icon(
+                                      Icons.add_circle_outline,
+                                      color: Colors.brown[300],
+                                    )
+                                  ]));
                         }).toList()),
             ],
           );
