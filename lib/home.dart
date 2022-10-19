@@ -12,7 +12,6 @@ class Home extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Derek(),
         FavouriteDrinks(),
       ],
     );

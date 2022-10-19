@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coffee_help/progressBar.dart';
 import 'package:flutter/material.dart';
 
+import './derek.dart';
+
 class FavouriteDrinks extends StatefulWidget {
   const FavouriteDrinks({super.key});
 
@@ -74,6 +76,7 @@ class _FavouriteDrinksState extends State<FavouriteDrinks> {
           return Column(
             key: UniqueKey(),
             children: [
+              Derek(user['current-caffeine'], user['caffeine-goal']),
               ProgressBar(user['current-caffeine'], user['caffeine-goal']),
               SizedBox(
                 height: 150,
