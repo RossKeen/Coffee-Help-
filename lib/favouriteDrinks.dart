@@ -117,7 +117,20 @@ class _FavouriteDrinksState extends State<FavouriteDrinks> {
                                         )
                                       ]));
                             }).toList()),
-                )
+                ),
+                SizedBox(
+                    child: drinkAdded
+                        ? ElevatedButton(
+                            onPressed: () {
+                              handleUndo(
+                                  lastCaffeine, user['current-caffeine']);
+                            },
+                            child: Text('Undo last drink'),
+                            style: OutlinedButton.styleFrom(
+                                backgroundColor:
+                                    const Color.fromRGBO(204, 102, 0, 1)),
+                          )
+                        : Text('')),
               ],
             ),
           );
