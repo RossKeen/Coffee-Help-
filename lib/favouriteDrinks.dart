@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coffee_help/progressBar.dart';
 import 'package:flutter/material.dart';
 
+import './derek.dart';
+
 class FavouriteDrinks extends StatefulWidget {
   const FavouriteDrinks({super.key});
 
@@ -12,6 +14,8 @@ class FavouriteDrinks extends StatefulWidget {
 class _FavouriteDrinksState extends State<FavouriteDrinks> {
   late int caffeineState;
   late int goalState;
+  bool drinkAdded = false;
+  int lastCaffeine = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +25,22 @@ class _FavouriteDrinksState extends State<FavouriteDrinks> {
           .collection('users')
           .doc("test-user")
           .update({'current-caffeine': caffeine + currentCaffeine}).then((e) {
-        setState(() {});
+        setState(() {
+          drinkAdded = true;
+          lastCaffeine = caffeine;
+        });
+      });
+    }
+
+    void handleUndo(caffeine, currentCaffeine) {
+      db
+          .collection('users')
+          .doc("test-user")
+          .update({'current-caffeine': currentCaffeine - caffeine}).then((e) {
+        setState(() {
+          drinkAdded = false;
+          lastCaffeine = 0;
+        });
       });
     }
 
@@ -54,6 +73,7 @@ class _FavouriteDrinksState extends State<FavouriteDrinks> {
               favouritedDrinks.add(drink);
             }
           }
+
           return Expanded(
             child: Column(
               key: UniqueKey(),
@@ -98,6 +118,7 @@ class _FavouriteDrinksState extends State<FavouriteDrinks> {
                 )
               ],
             ),
+
           );
         } else {
           return Text('Loading...');
