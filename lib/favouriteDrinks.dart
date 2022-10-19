@@ -78,6 +78,7 @@ class _FavouriteDrinksState extends State<FavouriteDrinks> {
             child: Column(
               key: UniqueKey(),
               children: [
+                Derek(user['current-caffeine'], user['caffeine-goal']),
                 ProgressBar(user['current-caffeine'], user['caffeine-goal']),
                 Expanded(
                   child: ListView(
@@ -86,6 +87,7 @@ class _FavouriteDrinksState extends State<FavouriteDrinks> {
                           ? [
                               const Text(
                                 'Add a favourite drink',
+                                textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 30,
@@ -118,7 +120,6 @@ class _FavouriteDrinksState extends State<FavouriteDrinks> {
                 )
               ],
             ),
-
           );
         } else {
           return Text('Loading...');
