@@ -11,8 +11,8 @@ class Home extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        // Image.network(
-        //     'https://png.pngtree.com/png-clipart/20210418/original/pngtree-line-draft-doodle-smile-coffee-cup-png-image_6238196.jpg'),
+        Image.network(
+            'https://png.pngtree.com/png-clipart/20210418/original/pngtree-line-draft-doodle-smile-coffee-cup-png-image_6238196.jpg'),
         FavouriteDrinks(),
       ],
     );
