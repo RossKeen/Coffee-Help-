@@ -4,78 +4,87 @@ import 'package:flutter/services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ProgressBar extends StatefulWidget {
-  final caffeineState;
-  final caffeineGoalState;
-
-  ProgressBar(this.caffeineState, this.caffeineGoalState);
+  ProgressBar();
   @override
-  _ProgressBarState createState() =>
-      _ProgressBarState(caffeineState, caffeineGoalState);
+  _ProgressBarState createState() => _ProgressBarState();
 }
 
 class _ProgressBarState extends State<ProgressBar> {
-  final caffeineState;
-  final caffeineGoalState;
-
-  _ProgressBarState(this.caffeineState, this.caffeineGoalState);
+  _ProgressBarState();
 
   @override
   Widget build(BuildContext context) {
-    double progress = caffeineState / caffeineGoalState;
+    var db = FirebaseFirestore.instance;
 
-    generatePercent() {
-      if (progress < 1) {
-        double percent = progress;
-        return percent;
-      } else {
-        double percent = 1;
-        return percent;
-      }
-    }
+    var user = db.collection('users').get().then((data) {
+      return data.docs[0].data();
+    });
 
-    currentProgressColor() {
-      if (progress > 0.6 && progress < 0.8) {
-        return Color.fromARGB(255, 224, 92, 59);
-      }
-      if (progress >= 0.85) {
-        return Color.fromARGB(255, 140, 19, 10);
-      } else {
-        return Color.fromARGB(255, 132, 100, 25);
-      }
-    }
+    return FutureBuilder(
+        future: user,
+        builder: ((context, AsyncSnapshot snapshot) {
+          if (snapshot.hasData) {
+            int curr_caffeine = snapshot.data['current-caffeine'];
+            int caffeine_goal = snapshot.data['caffeine-goal'];
 
-    caffeineLimit() {
-      if (progress < 1) {
-        return Text("${(progress * 100).round()}%",
-            style: TextStyle(color: Colors.white));
-      } else {
-        return Text(
-          "OVER THE LIMIT!",
-          style: TextStyle(color: Colors.white),
-        );
-      }
-    }
+            double progress = curr_caffeine / caffeine_goal;
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Padding(
-          padding: EdgeInsets.all(20.0),
-          child: LinearPercentIndicator(
-            backgroundColor: Color.fromARGB(255, 203, 202, 171),
-            //fillColor: Colors.blueAccent,
-            width: 250.0,
-            lineHeight: 40.0,
-            leading: new Text("0mg"),
-            trailing: new Text("${caffeineGoalState}mg"),
-            percent: generatePercent(),
-            barRadius: const Radius.circular(16),
-            center: caffeineLimit(),
-            progressColor: currentProgressColor(),
-            animateFromLastPercent: true,
-          ),
-        ),
-      ],
-    );
+            caffeineLimit() {
+              if (progress < 1) {
+                return Text("${(progress * 100).round()}%",
+                    style: TextStyle(color: Colors.white));
+              } else {
+                return Text(
+                  "OVER THE LIMIT!",
+                  style: TextStyle(color: Colors.white),
+                );
+              }
+            }
+
+            generatePercent() {
+              if (progress < 1) {
+                double percent = progress;
+                return percent;
+              } else {
+                double percent = 1;
+                return percent;
+              }
+            }
+
+            currentProgressColor() {
+              if (progress > 0.6 && progress < 0.8) {
+                return Color.fromARGB(255, 224, 92, 59);
+              }
+              if (progress >= 0.85) {
+                return Color.fromARGB(255, 140, 19, 10);
+              } else {
+                return Color.fromARGB(255, 132, 100, 25);
+              }
+            }
+
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: EdgeInsets.all(20.0),
+                  child: LinearPercentIndicator(
+                    backgroundColor: Color.fromARGB(255, 203, 202, 171),
+                    width: 250.0,
+                    lineHeight: 40.0,
+                    leading: new Text("0mg"),
+                    trailing: new Text("${caffeine_goal}mg"),
+                    percent: generatePercent(),
+                    barRadius: const Radius.circular(16),
+                    center: caffeineLimit(),
+                    progressColor: currentProgressColor(),
+                    animateFromLastPercent: true,
+                  ),
+                ),
+              ],
+            );
+          } else {
+            return Text('lol');
+          }
+        }));
   }
 }
