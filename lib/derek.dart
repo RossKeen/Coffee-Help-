@@ -20,7 +20,7 @@ class _DerekState extends State<Derek> {
             });
 
     return toggle
-        ? Image.asset('assets/images/derek1.png')
-        : Image.asset('assets/images/derek2.png');
+        ? SizedBox(height: 300, child: Image.asset('assets/images/derek1.png'))
+        : SizedBox(height: 300, child: Image.asset('assets/images/derek2.png'));
   }
 }
