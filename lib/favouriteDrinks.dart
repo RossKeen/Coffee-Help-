@@ -12,6 +12,8 @@ class FavouriteDrinks extends StatefulWidget {
 class _FavouriteDrinksState extends State<FavouriteDrinks> {
   late int caffeineState;
   late int goalState;
+  bool drinkAdded = false;
+  int lastCaffeine = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +23,22 @@ class _FavouriteDrinksState extends State<FavouriteDrinks> {
           .collection('users')
           .doc("test-user")
           .update({'current-caffeine': caffeine + currentCaffeine}).then((e) {
-        setState(() {});
+        setState(() {
+          drinkAdded = true;
+          lastCaffeine = caffeine;
+        });
+      });
+    }
+
+    void handleUndo(caffeine, currentCaffeine) {
+      db
+          .collection('users')
+          .doc("test-user")
+          .update({'current-caffeine': currentCaffeine - caffeine}).then((e) {
+        setState(() {
+          drinkAdded = false;
+          lastCaffeine = 0;
+        });
       });
     }
 
@@ -94,7 +111,19 @@ class _FavouriteDrinksState extends State<FavouriteDrinks> {
                                       )
                                     ]));
                           }).toList()),
-              )
+              ),
+              SizedBox(
+                  child: drinkAdded
+                      ? ElevatedButton(
+                          onPressed: () {
+                            handleUndo(lastCaffeine, user['current-caffeine']);
+                          },
+                          child: Text('Undo last drink'),
+                          style: OutlinedButton.styleFrom(
+                              backgroundColor:
+                                  const Color.fromRGBO(204, 102, 0, 1)),
+                        )
+                      : Text('')),
             ],
           );
         } else {
