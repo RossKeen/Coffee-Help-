@@ -2,11 +2,27 @@ import 'package:flutter/material.dart';
 
 import './favouriteButton.dart';
 
-class DrinkCard extends StatelessWidget {
+class DrinkCard extends StatefulWidget {
   final Map<String, dynamic> drink;
   final db;
-  final setState;
-  DrinkCard(this.db, this.drink, this.setState);
+  final setParentState;
+  DrinkCard(this.db, this.drink, this.setParentState);
+
+  _DrinkCardState createState() => _DrinkCardState(db, drink, setParentState);
+}
+
+class _DrinkCardState extends State<DrinkCard> {
+  final Map<String, dynamic> drink;
+  final db;
+  final setParentState;
+  _DrinkCardState(this.db, this.drink, this.setParentState);
+
+  bool drinkAdded = false;
+  @override
+  void initState() {
+    super.initState();
+    drinkAdded = false;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +35,10 @@ class DrinkCard extends StatelessWidget {
             .doc('test-user')
             .update({'current-caffeine': cCaffeine + caffeine});
       }).then((e) {
-        setState(() {});
+        setState(() {
+          drinkAdded = true;
+        });
+        setParentState(() {});
       });
     }
 
@@ -40,6 +59,11 @@ class DrinkCard extends StatelessWidget {
               handlePress(drink['caffeine']);
             },
             child: Text('Add')),
+        SizedBox(
+          child: drinkAdded
+              ? ElevatedButton(onPressed: () {}, child: Text('you did an add'))
+              : Text(''),
+        ),
         FavouriteButton(db, drink['id'], drink['favourited']),
       ]),
     );
