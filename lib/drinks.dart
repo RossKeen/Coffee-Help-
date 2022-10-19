@@ -35,9 +35,8 @@ class _DrinksState extends State<Drinks> {
             key: UniqueKey(),
             children: [
               ProgressBar(user['current-caffeine'], user['caffeine-goal']),
-              SizedBox(
-                height: 645,
-                child: ListView(children: [
+              Expanded(
+                child: ListView(shrinkWrap: true, children: [
                   ...drinksList.map((drink) {
                     return DrinkCard(db, drink, setState);
                   }).toList()

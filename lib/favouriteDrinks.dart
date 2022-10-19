@@ -73,61 +73,52 @@ class _FavouriteDrinksState extends State<FavouriteDrinks> {
               favouritedDrinks.add(drink);
             }
           }
-          return Column(
-            key: UniqueKey(),
-            children: [
-              Derek(user['current-caffeine'], user['caffeine-goal']),
-              ProgressBar(user['current-caffeine'], user['caffeine-goal']),
-              SizedBox(
-                height: 150,
-                child: ListView(
-                    children: favouritedDrinks.length == 0
-                        ? [
-                            const Text(
-                              'Add a favourite drink',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 30,
-                                  fontFamily: 'Helvetica'),
-                            )
-                          ]
-                        : favouritedDrinks.map((drink) {
-                            return ListTile(
-                                onTap: () => {
-                                      handleTap(drink['caffeine'],
-                                          user['current-caffeine'])
-                                    },
-                                title: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Row(children: [
+
+          return Expanded(
+            child: Column(
+              key: UniqueKey(),
+              children: [
+                ProgressBar(user['current-caffeine'], user['caffeine-goal']),
+                Expanded(
+                  child: ListView(
+                      shrinkWrap: true,
+                      children: favouritedDrinks.length == 0
+                          ? [
+                              const Text(
+                                'Add a favourite drink',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 30,
+                                    fontFamily: 'Helvetica'),
+                              )
+                            ]
+                          : favouritedDrinks.map((drink) {
+                              return ListTile(
+                                  onTap: () => {
+                                        handleTap(drink['caffeine'],
+                                            user['current-caffeine'])
+                                      },
+                                  title: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Row(children: [
+                                          Icon(
+                                            Icons.local_cafe,
+                                            color: Colors.brown[600],
+                                          ),
+                                          Text(' ${drink['name']}'),
+                                        ]),
                                         Icon(
-                                          Icons.local_cafe,
-                                          color: Colors.brown[600],
-                                        ),
-                                        Text(' ${drink['name']}'),
-                                      ]),
-                                      Icon(
-                                        Icons.add_circle_outline,
-                                        color: Colors.brown[300],
-                                      )
-                                    ]));
-                          }).toList()),
-              ),
-              SizedBox(
-                  child: drinkAdded
-                      ? ElevatedButton(
-                          onPressed: () {
-                            handleUndo(lastCaffeine, user['current-caffeine']);
-                          },
-                          child: Text('Undo last drink'),
-                          style: OutlinedButton.styleFrom(
-                              backgroundColor:
-                                  const Color.fromRGBO(204, 102, 0, 1)),
-                        )
-                      : Text('')),
-            ],
+                                          Icons.add_circle_outline,
+                                          color: Colors.brown[300],
+                                        )
+                                      ]));
+                            }).toList()),
+                )
+              ],
+            ),
+
           );
         } else {
           return Text('Loading...');
