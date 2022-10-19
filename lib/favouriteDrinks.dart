@@ -50,7 +50,7 @@ class _FavouriteDrinksState extends State<FavouriteDrinks> {
           caffeineState = user['current-caffeine'];
           goalState = user['caffeine-goal'];
           for (Map drink in drinksList) {
-            if (drink['favourited'] && favouritedDrinks.length < 5) {
+            if (drink['favourited']) {
               favouritedDrinks.add(drink);
             }
           }
@@ -58,44 +58,43 @@ class _FavouriteDrinksState extends State<FavouriteDrinks> {
             key: UniqueKey(),
             children: [
               ProgressBar(user['current-caffeine'], user['caffeine-goal']),
-              Column(
-                  children: favouritedDrinks.length == 0
-                      ? [
-                          const Text(
-                            'Add a favourite drink',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 30,
-                                fontFamily: 'Helvetica'),
-                          )
-                        ]
-                      : favouritedDrinks.map((drink) {
-                          return ListTile(
-                              onTap: () => {
-                                    handleTap(drink['caffeine'],
-                                        user['current-caffeine'])
-                                  },
-                              title: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                Row(
+              SizedBox(
+                height: 150,
+                child: ListView(
+                    children: favouritedDrinks.length == 0
+                        ? [
+                            const Text(
+                              'Add a favourite drink',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 30,
+                                  fontFamily: 'Helvetica'),
+                            )
+                          ]
+                        : favouritedDrinks.map((drink) {
+                            return ListTile(
+                                onTap: () => {
+                                      handleTap(drink['caffeine'],
+                                          user['current-caffeine'])
+                                    },
+                                title: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
-                                Icon(
-                                  Icons.local_cafe,
-                                  color: Colors.brown[600],
-                                ),
-                                Text(' ${drink['name']}'),
-                              
-
-                                    ]
-                                  ),
-                                 
-                                Icon(
-                                  Icons.add_circle_outline,
-                                  color: Colors.brown[300],
-                                )
-                              ]));
-                        }).toList()),
+                                      Row(children: [
+                                        Icon(
+                                          Icons.local_cafe,
+                                          color: Colors.brown[600],
+                                        ),
+                                        Text(' ${drink['name']}'),
+                                      ]),
+                                      Icon(
+                                        Icons.add_circle_outline,
+                                        color: Colors.brown[300],
+                                      )
+                                    ]));
+                          }).toList()),
+              )
             ],
           );
         } else {
