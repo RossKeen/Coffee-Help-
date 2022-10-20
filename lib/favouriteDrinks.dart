@@ -106,14 +106,15 @@ class _FavouriteDrinksState extends State<FavouriteDrinks> {
                                       children: [
                                         Row(children: [
                                           Icon(
-                                            Icons.local_cafe,
+                                            Icons.coffee,
                                             color: Colors.brown[600],
                                           ),
                                           Text(' ${drink['name']}'),
                                         ]),
                                         Icon(
                                           Icons.add_circle_outline,
-                                          color: Colors.brown[300],
+                                          color:
+                                              Color.fromARGB(255, 137, 85, 6),
                                         )
                                       ]));
                             }).toList()),
