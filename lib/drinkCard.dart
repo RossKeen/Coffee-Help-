@@ -5,24 +5,17 @@ import './favouriteButton.dart';
 class DrinkCard extends StatefulWidget {
   final Map<String, dynamic> drink;
   final db;
-  final setParentState;
-  DrinkCard(this.db, this.drink, this.setParentState);
+  final changeDrinkBool;
+  DrinkCard(this.db, this.drink, this.changeDrinkBool);
 
-  _DrinkCardState createState() => _DrinkCardState(db, drink, setParentState);
+  _DrinkCardState createState() => _DrinkCardState(db, drink, changeDrinkBool);
 }
 
 class _DrinkCardState extends State<DrinkCard> {
   final Map<String, dynamic> drink;
   final db;
-  final setParentState;
-  _DrinkCardState(this.db, this.drink, this.setParentState);
-
-  bool drinkAdded = false;
-  @override
-  void initState() {
-    super.initState();
-    drinkAdded = false;
-  }
+  final changeDrinkBool;
+  _DrinkCardState(this.db, this.drink, this.changeDrinkBool);
 
   @override
   Widget build(BuildContext context) {
@@ -35,10 +28,7 @@ class _DrinkCardState extends State<DrinkCard> {
             .doc('test-user')
             .update({'current-caffeine': cCaffeine + caffeine});
       }).then((e) {
-        setState(() {
-          drinkAdded = true;
-        });
-        setParentState(() {});
+        changeDrinkBool(true, caffeine);
       });
     }
 
@@ -59,11 +49,6 @@ class _DrinkCardState extends State<DrinkCard> {
               handlePress(drink['caffeine']);
             },
             child: Text('Add')),
-        SizedBox(
-          child: drinkAdded
-              ? ElevatedButton(onPressed: () {}, child: Text('you did an add'))
-              : Text(''),
-        ),
         FavouriteButton(db, drink['id'], drink['favourited']),
       ]),
     );
