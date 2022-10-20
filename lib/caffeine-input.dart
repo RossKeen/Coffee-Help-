@@ -24,15 +24,15 @@ class _CaffeineWidgetState extends State<CaffeineWidget> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Padding(padding: EdgeInsets.all(0.1)),
-          Text('Derek McBean 3rd'),
+          Text('Derek McBeans 3rd'),
           Text(
             'Limit: ${widget.goal}mg',
             style: TextStyle(fontSize: 40, fontFamily: 'helvetica'),
           ),
           CaffeineInput(),
           ElevatedButton(
-              style:
-                  OutlinedButton.styleFrom(backgroundColor: Colors.brown[400]),
+              style: OutlinedButton.styleFrom(
+                  backgroundColor: Color.fromRGBO(204, 102, 0, 1)),
               onPressed: () => {
                     showDialog(
                         context: context,

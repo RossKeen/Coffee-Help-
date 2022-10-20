@@ -22,10 +22,10 @@ class _ProfilePicState extends State<ProfilePic> {
         Column(
           children: <Widget>[
             Container(
-              height: 200,
-              color: Color.fromARGB(255, 150, 139, 122),
+              height: 280,
+              color: Colors.brown[200],
               child: Center(
-                child: Image.asset('assets/images/nature.jpg'),
+                child: Image.asset('assets/images/beans2.png'),
               ),
             ),
             Expanded(
@@ -34,12 +34,21 @@ class _ProfilePicState extends State<ProfilePic> {
           ],
         ),
         Positioned(
-          top: 150,
+          top: 230,
           child: Container(
             height: 100,
             width: 100,
-            decoration:
-                BoxDecoration(shape: BoxShape.circle, color: Colors.white),
+            decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 5,
+                      blurRadius: 7,
+                      offset: Offset(0, 3))
+                ],
+                border: Border.all(width: 2, color: Colors.black)),
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Image.asset(
