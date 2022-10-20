@@ -41,47 +41,31 @@ class _CustomDrinkFormState extends State<CustomDrinkForm> {
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
-      child: Column(
-        children: <Widget>[
-          Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16.0),
-              child: Text('Enter your own drink here')),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Spacer(
-                flex: 2,
-              ),
-              Expanded(
-                flex: 10,
-                child: TextFormField(
-                  controller: _nameController,
-                  decoration: const InputDecoration(
-                    hintText: 'Enter your drink name',
-                    filled: true,
-                    fillColor: Color.fromARGB(255, 232, 230, 198),
-                    border: OutlineInputBorder(
-                        borderSide: BorderSide.none,
-                        borderRadius: BorderRadius.all(Radius.circular(50))),
-                  ),
-                  validator: (String? value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter a name';
-                    }
-                    return null;
-                  },
+      child: Container(
+        decoration: BoxDecoration(border: Border.all(color: Colors.grey)),
+        child: Column(
+          children: <Widget>[
+            Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: Text(
+                  'Enter your own drink here',
+                  style: TextStyle(fontSize: 20),
+                )),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Spacer(
+                  flex: 2,
                 ),
-              ),
-              Spacer(
-                flex: 1,
-              ),
-              Expanded(
-                  flex: 4,
+                Expanded(
+                  flex: 10,
                   child: TextFormField(
-                    controller: _caffeineController,
-                    keyboardType: TextInputType.number,
+                    textAlign: TextAlign.center,
+                    controller: _nameController,
                     decoration: const InputDecoration(
-                      hintText: 'mg',
+                      isDense: true,
+                      contentPadding: EdgeInsets.all(7),
+                      hintText: 'Enter your drink name',
                       filled: true,
                       fillColor: Color.fromARGB(255, 232, 230, 198),
                       border: OutlineInputBorder(
@@ -90,31 +74,60 @@ class _CustomDrinkFormState extends State<CustomDrinkForm> {
                     ),
                     validator: (String? value) {
                       if (value == null || value.isEmpty) {
-                        return 'Please enter a number';
+                        return 'Please enter a name';
                       }
                       return null;
                     },
-                  )),
-              Spacer(
-                flex: 2,
-              ),
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16.0),
-            child: ElevatedButton(
-              style: OutlinedButton.styleFrom(
-                  backgroundColor: const Color.fromRGBO(204, 102, 0, 1)),
-              onPressed: () {
-                if (_formKey.currentState!.validate()) {
-                  addNewDrink(_nameController.text, _caffeineController.text);
-                  parentReload();
-                }
-              },
-              child: const Text('Submit'),
+                  ),
+                ),
+                Spacer(
+                  flex: 1,
+                ),
+                Expanded(
+                    flex: 4,
+                    child: TextFormField(
+                      textAlign: TextAlign.center,
+                      controller: _caffeineController,
+                      keyboardType: TextInputType.number,
+                      decoration: const InputDecoration(
+                        isDense: true,
+                        contentPadding: EdgeInsets.all(7),
+                        hintText: 'mg',
+                        filled: true,
+                        fillColor: Color.fromARGB(255, 232, 230, 198),
+                        border: OutlineInputBorder(
+                            borderSide: BorderSide.none,
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(50))),
+                      ),
+                      validator: (String? value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Add mg';
+                        }
+                        return null;
+                      },
+                    )),
+                Spacer(
+                  flex: 2,
+                ),
+              ],
             ),
-          ),
-        ],
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 6.0),
+              child: ElevatedButton(
+                style: OutlinedButton.styleFrom(
+                    backgroundColor: const Color.fromRGBO(204, 102, 0, 1)),
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    addNewDrink(_nameController.text, _caffeineController.text);
+                    parentReload();
+                  }
+                },
+                child: const Text('Submit'),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
