@@ -32,6 +32,7 @@ class _CustomDrinkFormState extends State<CustomDrinkForm> {
       'favourited': false,
       'id': id,
       'name': name,
+      'custom': true,
     };
     await newDrink.set(newDrinkInfo);
   }
