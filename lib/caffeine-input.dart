@@ -24,7 +24,10 @@ class _CaffeineWidgetState extends State<CaffeineWidget> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Padding(padding: EdgeInsets.all(0.1)),
-          Text('Derek McBeans 3rd'),
+          Text(
+            'Derek McBeans 3rd',
+            style: TextStyle(fontSize: 20),
+          ),
           Text(
             'Limit: ${widget.goal}mg',
             style: TextStyle(fontSize: 40, fontFamily: 'helvetica'),

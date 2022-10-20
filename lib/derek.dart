@@ -17,13 +17,18 @@ class _DerekState extends State<Derek> {
 
   @override
   Widget build(BuildContext context) {
-
     double progress = currCaffeine / caffeineGoal;
 
     return progress >= 0.85
-        ? Image.asset('assets/images/fast.gif')
+        ? Image.asset(
+            'assets/images/fast.gif',
+          )
         : progress <= 0.6
-            ? Image.asset('assets/images/slow.gif')
-            : Image.asset('assets/images/medium.gif');
+            ? Image.asset(
+                'assets/images/slow.gif',
+              )
+            : Image.asset(
+                'assets/images/medium.gif',
+              );
   }
 }
