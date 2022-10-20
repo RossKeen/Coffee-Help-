@@ -64,7 +64,7 @@ class _ProgressBarState extends State<ProgressBar> {
           child: LinearPercentIndicator(
             backgroundColor: Color.fromARGB(255, 203, 202, 171),
             //fillColor: Colors.blueAccent,
-            width: 250.0,
+            width: 240.0,
             lineHeight: 40.0,
             leading: new Text("0 mg"),
             trailing: new Text("${caffeineGoalState} mg"),

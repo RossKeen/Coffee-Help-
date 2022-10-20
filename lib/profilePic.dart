@@ -22,7 +22,7 @@ class _ProfilePicState extends State<ProfilePic> {
         Column(
           children: <Widget>[
             Container(
-              height: 280,
+              width: 400,
               color: Colors.brown[200],
               child: Center(
                 child: Image.asset('assets/images/beans2.png'),
@@ -34,7 +34,7 @@ class _ProfilePicState extends State<ProfilePic> {
           ],
         ),
         Positioned(
-          top: 230,
+          top: 175,
           child: Container(
             height: 100,
             width: 100,
