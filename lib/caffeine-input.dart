@@ -68,10 +68,10 @@ class _CaffeineWidgetState extends State<CaffeineWidget> {
               color: Colors.brown,
             ),
           ),
-          keyboardType: TextInputType.number,
+          keyboardType: TextInputType.numberWithOptions(signed: true),
           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
           textInputAction: TextInputAction.done,
-          scrollPadding: EdgeInsets.all(32),
+          // scrollPadding: EdgeInsets.all(32),
         ),
       );
 }
