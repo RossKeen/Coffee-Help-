@@ -72,6 +72,7 @@ class _DrinksState extends State<Drinks> {
                       db,
                       drink,
                       _changeDrinkBool,
+                      _parentReload,
                     );
                   }).toList()
                 ]),
