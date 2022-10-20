@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:coffee_help/customDrinkForm.dart';
 import 'package:coffee_help/progressBar.dart';
 import 'package:flutter/material.dart';
 
@@ -12,6 +13,10 @@ class Drinks extends StatefulWidget {
 }
 
 class _DrinksState extends State<Drinks> {
+  void _parentReload() {
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     bool drinkAdded = false;
@@ -36,11 +41,16 @@ class _DrinksState extends State<Drinks> {
           return Column(
             key: UniqueKey(),
             children: [
+              CustomDrinkForm(parentReload: _parentReload),
               ProgressBar(user['current-caffeine'], user['caffeine-goal']),
               Expanded(
                 child: ListView(shrinkWrap: true, children: [
                   ...drinksList.map((drink) {
-                    return DrinkCard(db, drink, setState);
+                    return DrinkCard(
+                      db,
+                      drink,
+                      setState,
+                    );
                   }).toList()
                 ]),
               ),
