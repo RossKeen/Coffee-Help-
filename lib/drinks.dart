@@ -14,6 +14,8 @@ class Drinks extends StatefulWidget {
 class _DrinksState extends State<Drinks> {
   @override
   Widget build(BuildContext context) {
+    bool drinkAdded = false;
+    int lastDrinkCaffeine = 0;
     var db = FirebaseFirestore.instance;
     var drink = db.collection('drinks').get().then((event) {
       var drinks = [];
