@@ -1,16 +1,15 @@
-# coffee_help
+# Coffee, Help!
 
-A new Flutter project.
+A simple and universally relatable app for coffee/tea lovers. Coffee, Help! allows the user to track their daily caffeiene intake with the touch of a button. It has responsive visual representations of data cahnges that can be seen at a glance.
 
-## Getting Started
+It is easy to personalise, with user inputs to change your daily caffeine goal, add your own favourite custom drink, pick and change your favourite daily drinks to be displayed on the home screen as a quick add option. We have designed this to be interactive with the user, and can be reflected in our mascot Derek Mcbeans.
 
-This project is a starting point for a Flutter application.
+## Running the app
 
-A few resources to get you started if this is your first Flutter project:
+To run this app firstly there are a few things to install on Flutter SDK.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+1. Fork and clone the repository locally.
+2. For Mac IOS follow the flutter docs here https://docs.flutter.dev/get-started/install/macos and install following the instructions. There are options for` Intel` and `Apple silicon `
+3. Install Xcode (IOS simulator).
+4. Run `flutter doctor` to check your environment and diplays a report to the terminal
+5. In the repository cd into the ios folder and type the following command to run the app `flutter run`.
